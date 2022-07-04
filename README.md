@@ -4,7 +4,7 @@ Command line utility for cearing and loading project templates.
 
 ## Usage
 ```shell
-makemake -h
+> makemake -h
 ```
 shows help
 
