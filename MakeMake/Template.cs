@@ -15,6 +15,7 @@ internal class Template
     [JsonProperty(Required = Required.DisallowNull)]
     public TemplateFolder[] Folders { get; private set; } = Array.Empty<TemplateFolder>();
 
+    [JsonConstructor]
     public Template(string name)
     {
         Name = name;
@@ -27,4 +28,10 @@ internal class Template
         foreach (var f in Folders)
             f.Create("./");
     }
+
+    public static Template LoadTemplate(string name) => new(name)
+    {
+        Files = new DirectoryInfo("./").EnumerateFiles().Select(p => new TemplateFile(p)).ToArray(),
+        Folders = new DirectoryInfo("./").EnumerateDirectories().Select(p => new TemplateFolder(p)).ToArray(),
+    };
 }

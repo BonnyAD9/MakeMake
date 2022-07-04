@@ -32,6 +32,8 @@ internal class Config
         Current = c;
     }
 
+    public static void Save() => File.WriteAllText(FilePath, JsonConvert.SerializeObject(Current, Formatting.Indented));
+
     /*[JsonProperty("$schema")]
     public string Schema { get; } = Path.Join(DirPath, "ConfigSchema.json");*/
     [JsonProperty(Required = Required.DisallowNull)]

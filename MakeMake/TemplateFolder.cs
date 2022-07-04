@@ -12,9 +12,17 @@ internal class TemplateFolder
     [JsonProperty(Required = Required.DisallowNull)]
     public TemplateFolder[] Folders { get; private set; } = Array.Empty<TemplateFolder>();
 
+    [JsonConstructor]
     public TemplateFolder(string name)
     {
         Name = name;
+    }
+
+    public TemplateFolder(DirectoryInfo dir)
+    {
+        Name = dir.Name;
+        Files = dir.EnumerateFiles().Select(p => new TemplateFile(p)).ToArray();
+        Folders = dir.EnumerateDirectories().Select(p => new TemplateFolder(p)).ToArray();
     }
 
     public void Create(string directory)

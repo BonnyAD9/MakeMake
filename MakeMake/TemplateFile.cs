@@ -11,16 +11,17 @@ internal class TemplateFile
     [JsonProperty(Required = Required.DisallowNull)]
     public string[] Contents { get; private set; } = Array.Empty<string>();
 
+    [JsonConstructor]
     public TemplateFile(string name)
     {
         Name = name;
     }
 
-    /*public TemplateFile(FileInfo file)
+    public TemplateFile(FileInfo file)
     {
         Name = file.Name;
         Contents = File.ReadAllLines(file.FullName);
-    }*/
+    }
 
     public void Create(string directory)
     {
