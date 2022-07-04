@@ -22,11 +22,12 @@
         },
         {
           "Name": "Makefile",
+		  "Parse": true,
           "Contents": [
-            "CC:=clang",
-            "OUT:=main.exe",
-            "CFLAGS:=-Wall -g -std=c17",
-            "RFLAGS:=-std=c17 -DNDEBUG -O3",
+            "CC:=${Compiler}",
+            "OUT:=${OutName}${Extension}",
+            "CFLAGS:=${DebugFlags}",
+            "RFLAGS:=${ReleaseFlags}",
             "CFILES:=main.c",
             "",
             "debug: $(CFILES)",
@@ -46,6 +47,7 @@
           "Files": [
             {
               "Name": "launch.json",
+			  "Parse": true,
               "Contents": [
                 "{",
                 "  \"version\": \"0.2.0\",",
@@ -54,9 +56,9 @@
                 "      \"type\": \"lldb\",",
                 "      \"request\": \"launch\",",
                 "      \"name\": \"Debug\",",
-                "      \"program\": \"${workspaceFolder}/main.exe\",",
+                "      \"program\": \"${'${workspaceFolder}'}/${OutName}${Extension}\",",
                 "      \"args\": [],",
-                "      \"cwd\": \"${workspaceFolder}\",",
+                "      \"cwd\": \"${'${workspaceFolder}'}\",",
                 "      \"preLaunchTask\": \"Makefile\"",
                 "    }",
                 "  ]",
