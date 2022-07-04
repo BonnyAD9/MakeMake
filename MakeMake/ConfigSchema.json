@@ -1,0 +1,24 @@
+﻿{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Configuration",
+  "description": "Configuration for the MakeMake utility.",
+  "type": "object",
+  "properties": {
+    "Compiler": {
+      "description": "Sets the default C compiler",
+      "type": "string",
+      "default": "clang",
+      "examples": [
+        "clang",
+        "gcc",
+        "cl"
+      ]
+    },
+    "DebugFlags": {
+      "description": "Sets the default flags for debugging with the compiler",
+      "type": "string",
+      "default": "-Wall -g -std=c17",
+      "pattern": "(([^ \"]+|\".*?\")( ([^ \"]+|\".*?\"))*)?"
+    }
+  }
+}

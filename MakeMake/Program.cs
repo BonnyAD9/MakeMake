@@ -4,6 +4,24 @@ class Program
 {
     static void Main(string[] args)
     {
+        if (args.Length == 0)
+        {
+            NoArg();
+            return;
+        }
+
+        var t = Config.Current.Templates.FirstOrDefault(p => p.Name == args[0]);
+        if (t is null)
+        {
+            Console.WriteLine($"There is no template with the name '{args[0]}'");
+            return;
+        }
+
+        t.Create();
+    }
+
+    static void NoArg()
+    {
         var f = Directory.EnumerateFiles("./").FirstOrDefault(p => p.EndsWith(".c"));
 
         if (f is null)

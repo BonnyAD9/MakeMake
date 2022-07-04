@@ -3,11 +3,15 @@ using System.Runtime.Serialization;
 
 namespace MakeMake;
 
-[DataContract]
+[JsonObject(MemberSerialization.OptIn)]
 internal class Config
 {
     public static Config Current { get; set; }
+#if DEBUG
+    public static string DirPath { get; } = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MakeMake", "debug");
+#else
     public static string DirPath { get; } = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MakeMake");
+#endif
     public static string FilePath { get; } = Path.Join(DirPath, "Config.json");
 
     static Config()
@@ -20,21 +24,26 @@ internal class Config
         Config? c = JsonConvert.DeserializeObject<Config>(File.ReadAllText(FilePath));
         if (c is null)
         {
+            //throw new Exception("Failed to load config");
             Current = new();
-            File.WriteAllText(FilePath, JsonConvert.SerializeObject(Current, Formatting.Indented));
+            //JsonConvert.SerializeObject(Current, Formatting.Indented);
             return;
         }
         Current = c;
     }
 
-    [DataMember]
+    /*[JsonProperty("$schema")]
+    public string Schema { get; } = Path.Join(DirPath, "ConfigSchema.json");*/
+    [JsonProperty(Required = Required.DisallowNull)]
     public string Compiler { get; set; } = "clang";
-    [DataMember]
+    [JsonProperty(Required = Required.DisallowNull)]
     public string DebugFlags { get; set; } = "-Wall -g -std=c17";
-    [DataMember]
+    [JsonProperty(Required = Required.DisallowNull)]
     public string ReleaseFlags { get; set; } = "-std=c17 -DNDEBUG -O3";
-    [DataMember]
+    [JsonProperty]
     public string? OutName { get; set; } = null;
-    [DataMember]
+    [JsonProperty(Required = Required.DisallowNull)]
     public string Extension { get; set; } = ".exe";
+    [JsonProperty(Required = Required.DisallowNull)]
+    public List<Template> Templates { get; } = new();
 }
