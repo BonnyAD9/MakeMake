@@ -42,6 +42,8 @@ internal class Config
     public string DebugFlags { get; set; } = "-Wall -g -std=c17";
     [JsonProperty(Required = Required.DisallowNull)]
     public string ReleaseFlags { get; set; } = "-std=c17 -DNDEBUG -O3";
+    [JsonProperty(Required = Required.DisallowNull)]
+    public string MainName { get; set; } = "main";
     [JsonProperty]
     public string? OutName { get; set; } = null;
     [JsonProperty(Required = Required.DisallowNull)]
