@@ -1,6 +1,6 @@
 # MakeMake
 
-Command line utility for cearing and loading project templates.
+Command line utility for creating and loading project templates.
 
 ## Usage
 ```shell
