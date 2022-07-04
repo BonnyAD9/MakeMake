@@ -22,7 +22,7 @@
         },
         {
           "Name": "Makefile",
-		  "Parse": true,
+          "Parse": true,
           "Contents": [
             "CC:=${Compiler}",
             "OUT:=${OutName}${Extension}",
@@ -47,7 +47,7 @@
           "Files": [
             {
               "Name": "launch.json",
-			  "Parse": true,
+              "Parse": true,
               "Contents": [
                 "{",
                 "  \"version\": \"0.2.0\",",
