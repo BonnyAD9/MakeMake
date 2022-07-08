@@ -1,4 +1,5 @@
 ﻿using Bny.Console;
+using System.Reflection;
 
 namespace MakeMake;
 
@@ -99,13 +100,21 @@ class Program
     static void Help()
     {
         Term.FormLine(
-            "Wellcome to ", Term.italic, "MakeMake", Term.reset, " help\n",
-            "Usage: ", Term.brightWhite, "makemake ", Term.brightBlack, "[flags] [template name]", Term.reset, "\n\n",
-            "Flags:\n",
-            Term.brightYellow, "  -h  --help", Term.reset, ": shows this help\n",
-            Term.brightYellow, "  -n  --new", Term.brightWhite, " [template name]", Term.reset, ": creates new template\n",
-            Term.brightYellow, "  -r  --remove", Term.brightWhite, " [template name]", Term.reset, ": removes template\n",
-            Term.brightYellow, "  -l  --list", Term.reset, ": lists all templates\n"
+            "Wellcome to help for ", Term.italic, Term.brightGreen, "MakeMake", Term.reset, " by ", string.Concat("BonnyAD9".Select((p, i) => Term.PrepareSB(Term.fg, 250 - 10 * i, 50, 170 + 10 * i, p).ToString())), Term.reset, " \n",
+            Term.brightGreen, "Version: ", Term.brightYellow, Assembly.GetExecutingAssembly().GetName().Version!, Term.reset, "\n\n",
+            Term.brightGreen, "Usage: ", Term.brightWhite, "makemake ", Term.brightBlack, "[flags] [template name] [flags]", Term.reset, "\n\n",
+            Term.brightGreen, "Flags:", Term.reset, "\n",
+            Term.brightYellow, "  -h  --help", Term.reset, "\n",
+            "    shows this help\n\n",
+            Term.brightYellow, "  -n  --new", Term.brightWhite, " [template name]", Term.reset, "\n",
+            "    creates new template\n\n",
+            Term.brightYellow, "  -r  --remove", Term.brightWhite, " [template name]", Term.reset, "\n",
+            "    removes template\n\n",
+            Term.brightYellow, "  -l  --list", Term.reset, "\n",
+            "    lists all templates\n\n",
+            Term.brightYellow, "  -D", Term.brightWhite, "[variable name]", Term.brightBlack, "=[value]", Term.reset, "\n",
+            "    defines / redefines variable to the value\n\n",
+            "For info about how to create templates see ", Term.brightBlue, "https://github.com/BonnyAD9/MakeMake#variables-in-files", Term.reset
             );
     }
 }
