@@ -51,7 +51,7 @@ class Program
                 case "-r" or "--remove":
                     if (++i >= args.Length)
                     {
-                        Term.FormLine(Term.brightRed, "error:", Term.brightMagenta, " -l ", Term.reset, "expects name");
+                        Term.FormLine(Term.brightRed, "error:", Term.brightMagenta, " -r ", Term.reset, "expects name");
                         return;
                     }
                     ind = Config.Current.Templates.FindIndex(p => p.Name == args[i]);
@@ -104,7 +104,7 @@ class Program
                 return;
         }
 
-        var t = Config.Current.Templates.FirstOrDefault(p => p.Name == args[0]);
+        var t = Config.Current.Templates.FirstOrDefault(p => p.Name == tem);
         if (t is null)
         {
             Console.WriteLine($"There is no template with the name '{args[0]}'");
