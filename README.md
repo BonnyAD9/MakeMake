@@ -19,9 +19,9 @@ loads template with name vscm
 creates new template from the files in the cwd with the name vscm
 
 ```shell
-> makemake vscm -DCompiler=gcc
+> makemake vscm -DCompiler=gcc -Dhw
 ```
-loads template `vscm` where the `Compiler` variable is set to `gcc`
+loads template `vscm` where the `Compiler` variable is set to `gcc` and the `hw` variable is set to nothing
 
 ### Variables in files
 You can use special variables in files using `${}`, if you wan't to escape this you can use `${'${}'}` which will be interpreted as `${}`.
