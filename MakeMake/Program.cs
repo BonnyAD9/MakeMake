@@ -33,11 +33,12 @@ class Program
                         {
                             Console.Write($"Template with name '{args[i]}' already exists. Do you want to overwrite it? [Y/n]: ");
                             s = Console.ReadLine()?.ToLower();
-                        } while (s != "y" || s != "n" || s != "");
+                        } while (s != "y" && s != "n" && s != "");
 
                         if (s == "n")
-                            return;
+                            continue;
                         Config.Current.Templates[ind] = Template.LoadTemplate(args[i]);
+                        Config.Save();
                         continue;
                     }
                     Config.Current.Templates.Add(Template.LoadTemplate(args[i]));
@@ -102,7 +103,7 @@ class Program
             {
                 Console.Write("Makefile already exists, do you want to overwrite it? [Y/n]: ");
                 s = Console.ReadLine()?.ToLower();
-            } while (s != "y" || s != "n" || s != "");
+            } while (s != "y" && s != "n" && s != "");
             
             if (s == "n")
                 return;
