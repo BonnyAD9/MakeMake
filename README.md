@@ -34,7 +34,7 @@ File in the base of the template with name `'.json` is special. In this file you
 - `Name` - used for the name of the aplication
 - `MainName` - used for the name of the file with main
 - `Extension` - used as the extension of executable files
-- ` ` - expands to nothing
+- ` `(space) - expands to nothing
 
 #### Variables often used by templates
 - `Compiler` - used for the default compiler
@@ -47,4 +47,4 @@ in the `${}` you can use `,` to create simple if statements
 ```
 ${hw,'printf("Hello World");', }
 ```
-if variable `hw` is defined expand to `printf("Hello World");` otherwise expand to variable ` ` (that expands to nothing)
+if variable `hw` is defined expand to `printf("Hello World");` otherwise expand to variable ` `(space) (that expands to nothing)
