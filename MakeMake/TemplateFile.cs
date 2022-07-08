@@ -39,6 +39,6 @@ internal class TemplateFile
             return;
         }
 
-        File.WriteAllLines(Path.Join(directory, Helpers.Parse(Name, '_', '(', ')')), Contents.Select(p => Helpers.Parse(p)));
+        File.WriteAllLines(Path.Join(directory, Helpers.Parse(Name, '_', '(', ')', '_')), Contents.Select(p => Helpers.Parse(p)));
     }
 }

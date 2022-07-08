@@ -7,11 +7,16 @@ internal class Template
 {
     [JsonProperty(Required = Required.Always)]
     public string Name { get; set; }
+
     [JsonProperty(Required = Required.DisallowNull)]
     public string Description { get; set; } = "";
-    //public string Usage { get; set; } = "";
+
+    [JsonProperty(Required = Required.DisallowNull)]
+    public Dictionary<string, string> Variables { get; set; } = new();
+
     [JsonProperty(Required = Required.DisallowNull)]
     public TemplateFile[] Files { get; private set; } = Array.Empty<TemplateFile>();
+
     [JsonProperty(Required = Required.DisallowNull)]
     public TemplateFolder[] Folders { get; private set; } = Array.Empty<TemplateFolder>();
 
@@ -23,15 +28,32 @@ internal class Template
 
     public void Create()
     {
+        Config.Current.TVars = Variables;
+
         foreach (var f in Files)
             f.Create("./");
         foreach (var f in Folders)
             f.Create("./");
+
+        Config.Current.TVars = null;
     }
 
-    public static Template LoadTemplate(string name) => new(name)
+    public static Template LoadTemplate(string name)
     {
-        Files = new DirectoryInfo("./").EnumerateFiles().Select(p => new TemplateFile(p)).ToArray(),
-        Folders = new DirectoryInfo("./").EnumerateDirectories().Select(p => new TemplateFolder(p)).ToArray(),
-    };
+        Template t = new(name);
+        List<TemplateFile> files = new();
+        DirectoryInfo d = new("./");
+        foreach (var f in d.EnumerateFiles())
+        {
+            if (f.Name == "'.json")
+            {
+                t.Variables = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(f.Name)) ?? new();
+                continue;
+            }
+            files.Add(new(f));
+        }
+        t.Files = files.ToArray();
+        t.Folders = new DirectoryInfo("./").EnumerateDirectories().Select(p => new TemplateFolder(p)).ToArray();
+        return t;
+    }
 }

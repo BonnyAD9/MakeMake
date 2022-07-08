@@ -6,9 +6,11 @@ class Program
 {
     static void Main(string[] args)
     {
+        //args = new[] { "test" };
+
         if (args.Length == 0)
         {
-            NoArg();
+            Help();
             return;
         }
 
@@ -66,11 +68,19 @@ class Program
                     foreach (var temp in Config.Current.Templates)
                         Term.FormLine(Term.brightYellow, $"{temp.Name,-10} ", Term.reset, temp.Description);
                     continue;
-                default:
-                    tem = args[i];
-                    break;
             }
-            break;
+            if (args[i].StartsWith("-D"))
+            {
+                if (!args[i].Contains('='))
+                {
+                    Config.Current.RVars.TryAdd(args[i][2..], "");
+                    continue;
+                }
+                var spl = args[i].Split('=', StringSplitOptions.None);
+                Config.Current.RVars.TryAdd(spl[0][2..], spl[1]);
+                continue;
+            }
+            tem = args[i];
         }
 
         if (tem is null)
@@ -84,50 +94,6 @@ class Program
         }
 
         t.Create();
-    }
-
-    static void NoArg()
-    {
-        var f = Directory.EnumerateFiles("./").FirstOrDefault(p => p.EndsWith(".c"));
-
-        if (f is null)
-        {
-            Term.FormLine(Term.brightRed, "error:", Term.reset, " No C file found");
-            return;
-        }
-
-        if (File.Exists("Makefile"))
-        {
-            string? s;
-            do
-            {
-                Console.Write("Makefile already exists, do you want to overwrite it? [Y/n]: ");
-                s = Console.ReadLine()?.ToLower();
-            } while (s != "y" && s != "n" && s != "");
-            
-            if (s == "n")
-                return;
-        }
-
-        FileInfo fi = new(f);
-
-        string makefile =
-            "CC:=" + Config.Current.Compiler + "\n" +
-            "OUT:=" + (Config.Current.OutName ?? fi.Name[..^2]) + Config.Current.Extension + "\n" +
-            "CFLAGS:=" + Config.Current.DebugFlags + "\n" +
-            "RFLAGS:=" + Config.Current.ReleaseFlags + "\n" +
-            "CFILES:=" + fi.Name + "\n" +
-            "\n" +
-            "debug: $(CFILES)\n" +
-            "\t$(CC) $(CFLAGS) -o $(OUT) $(CFILES)\n" +
-            "\n" +
-            "release: $(CFILES)\n" +
-            "\t$(CC) $(RFLAGS) -o $(OUT) $(CFILES)\n" +
-            "\n" +
-            "clean:\n" +
-            "\tdel $(OUT)\n";
-
-        File.WriteAllText("Makefile", makefile);
     }
 
     static void Help()

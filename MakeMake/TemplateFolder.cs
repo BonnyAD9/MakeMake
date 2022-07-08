@@ -38,7 +38,7 @@ internal class TemplateFolder
 
     public void Create(string directory)
     {
-        string path = Path.Join(directory, Helpers.Parse(Name, '_', '(', ')'));
+        string path = Path.Join(directory, Helpers.Parse(Name, '_', '(', ')', '_'));
         Directory.CreateDirectory(path);
         foreach (var f in Files)
             f.Create(path);
