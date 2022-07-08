@@ -1,6 +1,6 @@
 # MakeMake
 
-Command line utility for cearing and loading project templates.
+Command line utility for creating and loading project templates.
 
 ## Usage
 ```shell
@@ -22,3 +22,14 @@ finds a C file in this folder and creates a Makefile for it
 > makemake -n vscm
 ```
 creates new template from the files in the cwd with the name vscm
+
+### Variables in files
+You can use special variables in files using `${}`, if you wan't to escape this you can use `${'${}'}` which will be interpreted as `${}`.
+
+#### Variables
+- `${Compiler}`
+- `${DebugFlags}`
+- `${ReleaseFlags}`
+- `${OutName}`
+- `${MainName}`
+- `${Extension}`
