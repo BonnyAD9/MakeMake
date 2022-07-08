@@ -26,14 +26,17 @@ internal class Template
         Name = name;
     }
 
-    public void Create()
+    public void Create(bool raw = false)
     {
         Config.Current.TVars = Variables;
 
+        if (raw)
+            File.WriteAllText("'.json", JsonConvert.SerializeObject(Variables, Formatting.Indented));
+
         foreach (var f in Files)
-            f.Create("./");
+            f.Create("./", raw);
         foreach (var f in Folders)
-            f.Create("./");
+            f.Create("./", raw);
 
         Config.Current.TVars = null;
     }

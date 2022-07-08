@@ -36,13 +36,15 @@ internal class TemplateFolder
         Folders = dir.EnumerateDirectories().Select(p => new TemplateFolder(p)).ToArray();
     }
 
-    public void Create(string directory)
+    public void Create(string directory, bool raw = false)
     {
-        string path = Path.Join(directory, Helpers.Parse(Name, '_', '(', ')', '_'));
+        string path = raw
+            ? Path.Join(directory, Parse ? "'" + Name : Name)
+            : Path.Join(directory, Parse ? Helpers.Parse(Name, '_', '(', ')', '_') : Name);
         Directory.CreateDirectory(path);
         foreach (var f in Files)
-            f.Create(path);
+            f.Create(path, raw);
         foreach (var d in Folders)
-            d.Create(path);
+            d.Create(path, raw);
     }
 }

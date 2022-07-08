@@ -16,6 +16,7 @@ class Program
         }
 
         string? tem = null;
+        bool raw = false;
 
         for (int i = 0; i < args.Length; i++)
         {
@@ -69,6 +70,9 @@ class Program
                     foreach (var temp in Config.Current.Templates)
                         Term.FormLine(Term.brightYellow, $"{temp.Name,-10} ", Term.reset, temp.Description);
                     continue;
+                case "-e" or "--edit":
+                    raw = true;
+                    continue;
             }
             if (args[i].StartsWith("-D"))
             {
@@ -87,6 +91,19 @@ class Program
         if (tem is null)
             return;
 
+        if (Directory.GetFiles("./").Length != 0 || Directory.GetDirectories("./").Length != 0)
+        {
+            string? s;
+            do
+            {
+                Console.Write($"The current directory isn't empty. Do you want to continue anyway? [Y/n]: ");
+                s = Console.ReadLine()?.ToLower();
+            } while (s != "y" && s != "n" && s != "");
+
+            if (s == "n")
+                return;
+        }
+
         var t = Config.Current.Templates.FirstOrDefault(p => p.Name == args[0]);
         if (t is null)
         {
@@ -94,7 +111,7 @@ class Program
             return;
         }
 
-        t.Create();
+        t.Create(raw);
     }
 
     static void Help()
@@ -114,6 +131,8 @@ class Program
             "    lists all templates\n\n",
             Term.brightYellow, "  -D", Term.brightWhite, "[variable name]", Term.brightBlack, "=[value]", Term.reset, "\n",
             "    defines / redefines variable to the value\n\n",
+            Term.brightYellow, "  -e  --edit", Term.reset, "\n",
+            "    loads the template source\n\n",
             "For info about how to create templates see ", Term.brightBlue, "https://github.com/BonnyAD9/MakeMake#variables-in-files", Term.reset
             );
     }

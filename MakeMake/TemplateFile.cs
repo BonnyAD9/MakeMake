@@ -31,8 +31,14 @@ internal class TemplateFile
         Contents = File.ReadAllLines(file.FullName);
     }
 
-    public void Create(string directory)
+    public void Create(string directory, bool raw = false)
     {
+        if (raw)
+        {
+            File.WriteAllLines(Path.Join(directory, Parse ? "'" + Name : Name), Contents);
+            return;
+        }
+
         if (!Parse)
         {
             File.WriteAllLines(Path.Join(directory, Name), Contents);
