@@ -1,34 +1,28 @@
 {
-  "Compiler": "clang",
-  "DebugFlags": "-Wall -g -std=c17",
-  "ReleaseFlags": "-std=c17 -DNDEBUG -O3",
-  "OutName": null,
-  "Extension": ".exe",
+  "Variables": {
+    "MainName": "main",
+    "Extension": ".exe",
+    " ": ""
+  },
   "Templates": [
     {
       "Name": "vscm",
-      "Description": "VSCode makefile C project with single file using lldb extension",
+      "Description": "",
+      "Variables": {
+        "Compiler": "clang",
+        "DebugFlags": "-d -Wall -std=c17",
+        "ReleaseFlags": "-std=c17 -DNDEBUG -O3"
+      },
       "Files": [
-        {
-          "Name": "main.c",
-          "Contents": [
-            "#include <stdio.h>",
-            "",
-            "int main()",
-            "{",
-            "",
-            "}"
-          ]
-        },
         {
           "Name": "Makefile",
           "Parse": true,
           "Contents": [
             "CC:=${Compiler}",
-            "OUT:=${OutName}${Extension}",
+            "OUT:=${Name}${Extension}",
             "CFLAGS:=${DebugFlags}",
             "RFLAGS:=${ReleaseFlags}",
-            "CFILES:=main.c",
+            "CFILES:=${MainName}.c",
             "",
             "debug: $(CFILES)",
             "\t$(CC) $(CFLAGS) -o $(OUT) $(CFILES)",
@@ -39,11 +33,24 @@
             "clean:",
             "\tdel $(OUT)"
           ]
+        },
+        {
+          "Name": "_(MainName).c",
+          "Parse": true,
+          "Contents": [
+            "${cc,'// compiled with \\''Compiler' 'DebugFlags'\\'\\n\\n', }#include <stdio.h>",
+            "",
+            "int main()",
+            "{",
+            "${hw,'    printf(\"Hello World\");', }",
+            "}"
+          ]
         }
       ],
       "Folders": [
         {
           "Name": ".vscode",
+          "Parse": false,
           "Files": [
             {
               "Name": "launch.json",
@@ -56,7 +63,7 @@
                 "      \"type\": \"lldb\",",
                 "      \"request\": \"launch\",",
                 "      \"name\": \"Debug\",",
-                "      \"program\": \"${'${workspaceFolder}'}/${OutName}${Extension}\",",
+                "      \"program\": \"${'${workspaceFolder}'}/${Name}${Extension}\",",
                 "      \"args\": [],",
                 "      \"cwd\": \"${'${workspaceFolder}'}\",",
                 "      \"preLaunchTask\": \"Makefile\"",
@@ -67,6 +74,7 @@
             },
             {
               "Name": "tasks.json",
+              "Parse": false,
               "Contents": [
                 "{",
                 "  \"version\": \"2.0.0\",",
