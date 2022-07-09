@@ -26,7 +26,7 @@ loads template `vscm` where the `Compiler` variable is set to `gcc` and the `hw`
 ### Variables in files
 Filenames that start with `'` will have their names and contents expanded.
 
-You can use special variables in files using `${}`, you can write literal strings with `${'${\'}'}` which will expand to `${'}`. In file and folder names, the `$` and `\` symbols are changed for `_` and the `{` and `}` symbols are changed for `(` and `)` respectively (`'_('\'_()').c` will expand to `'_().c`).
+You can use special variables in files using `${}`, you can write literal strings with `${'${\'}'}` which will expand to `${'}`. In file and folder names, the `$` and `\` symbols are changed for `_` and the `{` and `}` symbols are changed for `(` and `)` respectively (`'_('_'__()').c` will expand to `'_().c`).
 
 File in the base of the template with name `'.json` is special. In this file you can specifiy template-specific variables.
 
