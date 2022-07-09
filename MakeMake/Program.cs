@@ -7,7 +7,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        //args = new[] { "test" };
+        //args = new[] { "test", "the", "lines" };
 
         if (args.Length == 0)
         {
@@ -72,6 +72,9 @@ class Program
                     continue;
                 case "-e" or "--edit":
                     raw = true;
+                    continue;
+                case "-c" or "--config":
+                    Console.Write(Config.FilePath);
                     continue;
             }
             if (args[i].StartsWith("-D"))
